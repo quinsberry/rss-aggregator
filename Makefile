@@ -3,10 +3,10 @@ include .env
 export $(shell sed 's/=.*//' .env)
 
 build:
-	@go build -o bin/rss-aggregator
+	go build -C ./cmd/rssagg -o ./bin/rssagg
 
 run:
-	./bin/rss-aggregator
+	./bin/rssagg
 
 dev:
 	make build && make run
