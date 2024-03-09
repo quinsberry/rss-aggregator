@@ -16,8 +16,7 @@ import (
 func HandlerCreateUser(cfg *config.ApiConfig) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		type parameters struct {
-			Name     string `json:"name"`
-			Password string `json:"password"`
+			Name string `json:"name"`
 		}
 		type response struct {
 			Id        uuid.UUID `json:"id"`
@@ -44,7 +43,6 @@ func HandlerCreateUser(cfg *config.ApiConfig) http.HandlerFunc {
 			CreatedAt: time.Now().UTC(),
 			UpdatedAt: time.Now().UTC(),
 			Name:      params.Name,
-			Password:  params.Password,
 		})
 		if err != nil {
 			utils.RespondWithError(w, http.StatusBadRequest, fmt.Sprintf("Couldn't create user: %v", err))
