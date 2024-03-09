@@ -8,6 +8,7 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	"github.com/quinsberry/rss-aggregator/internal/config"
 	"github.com/quinsberry/rss-aggregator/internal/router"
 )
 
@@ -19,7 +20,13 @@ func main() {
 		log.Fatal("PORT is not found in the environment")
 	}
 
-	r := router.NewRouter()
+	dbUrl := os.Getenv("DB_URL")
+	if dbUrl == "" {
+		log.Fatal("DB_URL is not found in the environment")
+	}
+
+	cfg := config.NewApiConfig(dbUrl)
+	r := router.NewRouter(cfg)
 
 	srv := &http.Server{
 		Addr:    fmt.Sprintf(":%s", portStr),

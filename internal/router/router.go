@@ -4,9 +4,11 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"github.com/quinsberry/rss-aggregator/internal/config"
+	"github.com/quinsberry/rss-aggregator/internal/handlers"
 )
 
-func NewRouter() *chi.Mux {
+func NewRouter(cfg *config.ApiConfig) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Heartbeat("/healthz"))
 	r.Use(middleware.Recoverer)
@@ -21,7 +23,7 @@ func NewRouter() *chi.Mux {
 	}))
 
 	r.Route("/v1", func(r chi.Router) {
-		// r.Get(middleware.Heartbeat("/ping"))
+		r.Post("/users", handlers.HandlerCreateUser(cfg))
 	})
 	return r
 }
