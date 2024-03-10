@@ -25,6 +25,8 @@ func NewRouter(cfg *config.ApiConfig) *chi.Mux {
 	r.Route("/v1", func(r chi.Router) {
 		r.Post("/users", handlers.HandlerCreateUser(cfg))
 		r.Get("/users", handlers.HandlerGetUser(cfg))
+		r.Post("/feeds", handlers.HandlerCreateFeed(cfg))
+		r.Get("/feeds", handlers.HandlerGetFeeds(cfg))
 	})
 	return r
 }

@@ -4,6 +4,9 @@ import (
 	"errors"
 	"net/http"
 	"strings"
+
+	"github.com/quinsberry/rss-aggregator/internal/config"
+	"github.com/quinsberry/rss-aggregator/internal/database"
 )
 
 var ErrNoAuthHeaderIncluded = errors.New("no authorization header included")
@@ -23,4 +26,16 @@ func GetApiKey(headers http.Header) (string, error) {
 	}
 
 	return splitAuth[1], nil
+}
+
+func ValidateAuth(r *http.Request, cfg *config.ApiConfig) (database.User, error) {
+	apiKey, err := GetApiKey(r.Header)
+	if err != nil {
+		return database.User{}, err
+	}
+	user, err := cfg.DB.GetUserByAPIKey(r.Context(), apiKey)
+	if err != nil {
+		return database.User{}, err
+	}
+	return user, nil
 }

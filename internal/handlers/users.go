@@ -24,15 +24,9 @@ func HandlerGetUser(cfg *config.ApiConfig) http.HandlerFunc {
 			APIKey    string    `json:"api_key"`
 		}
 
-		apiKey, err := auth.GetApiKey(r.Header)
+		user, err := auth.ValidateAuth(r, cfg)
 		if err != nil {
 			utils.RespondWithError(w, http.StatusForbidden, fmt.Sprintf("Auth error: %v", err))
-			return
-		}
-		user, err := cfg.DB.GetUserByAPIKey(r.Context(), apiKey)
-		if err != nil {
-			utils.RespondWithError(w, http.StatusNotFound, fmt.Sprintf("Couldn't get user by api key: %v", err))
-			return
 		}
 
 		utils.RespondWithJSON(w, 200, response{
