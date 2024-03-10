@@ -3,13 +3,13 @@ include .env
 export $(shell sed 's/=.*//' .env)
 
 build:
-	go build -C ./cmd/rssagg -o ./bin/rssagg
+	@go build -C ./cmd/rssagg -o ../../bin/rssagg
 
 run:
-	./bin/rssagg
+	@./bin/rssagg
 
 dev:
-	make build && make run
+	@make build && make run
 
 goose-up:
 	@goose -dir=./internal/sql/schema postgres $(DB_URL) up
