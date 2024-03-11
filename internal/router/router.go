@@ -21,12 +21,18 @@ func NewRouter(cfg *config.ApiConfig) *chi.Mux {
 		AllowCredentials: true,
 		MaxAge:           300,
 	}))
-
 	r.Route("/v1", func(r chi.Router) {
 		r.Post("/users", handlers.HandlerCreateUser(cfg))
 		r.Get("/users", handlers.HandlerGetUser(cfg))
+
 		r.Post("/feeds", handlers.HandlerCreateFeed(cfg))
 		r.Get("/feeds", handlers.HandlerGetFeeds(cfg))
+
+		r.Route("/feed-follows", func(r chi.Router) {
+			r.Post("/", handlers.HandlerCreateFeedFollow(cfg))
+			r.Get("/", handlers.HandlerGetUserFeedFollows(cfg))
+			r.Delete("/{id}", handlers.HandlerDeleteFeedFollow(cfg))
+		})
 	})
 	return r
 }
