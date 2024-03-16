@@ -9,10 +9,10 @@ run: build
 	@./bin/rssagg
 
 goose-up:
-	@goose -dir=./internal/sql/schema postgres $(DB_URL) up && make sqlc-gen
+	@goose -dir=./internal/sql/schema postgres $(DB_URL) up
 
 goose-down:
-	@goose -dir=./internal/sql/schema postgres $(DB_URL) down && make sqlc-gen
+	@goose -dir=./internal/sql/schema postgres $(DB_URL) down
 
 sqlc-gen:
 	@sqlc generate

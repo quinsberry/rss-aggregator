@@ -28,6 +28,8 @@ func NewRouter(cfg *config.ApiConfig) *chi.Mux {
 		r.Post("/feeds", handlers.HandlerCreateFeed(cfg))
 		r.Get("/feeds", handlers.HandlerGetFeeds(cfg))
 
+		r.Get("/posts", handlers.HandlerGetPostsByUser(cfg))
+
 		r.Route("/feed-follows", func(r chi.Router) {
 			r.Post("/", handlers.HandlerCreateFeedFollow(cfg))
 			r.Get("/", handlers.HandlerGetUserFeedFollows(cfg))
